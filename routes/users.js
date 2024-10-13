@@ -1,5 +1,6 @@
 const express = require("express");
 const { users } = require("../data/users.json");
+const e = require("express");
 
 const router = express.Router();
 
@@ -145,6 +146,52 @@ router.post("/", (req, res) => {
         message: "User Deleted.",
         data: users,
     })
+ })
+
+/**
+ *! Route: /subscription-details/:id
+ *& Method: GET
+ * Description: Get all user subscription details
+ * Access: Public 
+ * Parameters: ID
+ */
+
+ router.get('/subscription-details/:id', (req, res) => {
+    const {id} = req.params;
+    const user = users.find((each)=> each.id === id);
+
+    if(!user){
+        return res.status(404).json({
+            success: false,
+            message: "User With This ID Does Not Exist.",
+        });
+    }
+    const getDateInDays = (data = "")=>{
+        let date;
+        if(data === ""){ //* if we have no data then we'll assign it to today's date
+            data = new Date()
+        }else{
+            data = new Date(data) //* otherwise consider the date given in data
+        }
+
+        //~ The floor() function returns the largest integer that is smaller than or equal to the value passed as the argument (i.e.: rounds down the nearest integer).
+        //~ ceil() function in C++ returns the smallest integer that is greater than or equal to the value passed as the argument (i.e.: rounds up the nearest integer).
+        //^  Calculating days from date:
+        let days = Math.floor(data / (1000 * 60 * 60 * 24)) //2.7 of ceil is 3 and of floor is 2
+                            //milliseconds*seconds*minute*hours
+        return days;
+    };
+
+    const subscriptionType = (date)=>{
+        if(user.subscriptionType === "Basic"){
+            date = date + 90;
+        }else if(user.subscriptionType === "Standard"){
+            date = date + 180;
+        }else if(user.subscriptionType === "Premium"){
+            date = date + 365;
+        }
+        return date;
+    };
  })
 
  module.exports = router;
