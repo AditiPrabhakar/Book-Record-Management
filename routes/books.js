@@ -82,5 +82,41 @@ router.get('/:id', (req, res) => {
     });
 })
 
+/**
+ *! Route: /
+ *& Method: POST
+ * Description: Adding a new book
+ * Access: Public 
+ * Parameters: None
+ * Data: id, name, genre, price, publisher
+ */
+
+ router.post('/', (req, res) => {
+    // const {id, name, genre, price, publisher} = req.body;
+    const {data} = req.body;
+
+    if(!data)
+    {
+        return res.status(400).json({
+            success: false,
+            message: "No Data To Add A Book",
+        });
+    }
+    const book = books.find((each)=> each.id === data.id);
+
+    if(book)
+    {
+        return res.status(404).json({
+            success: false,
+            message: "Book With This ID Already Exists.",
+        });
+    }
+    const allBooks = [...books, data];
+    return res.status(201).json({
+        success: true,
+        message: "Book Added Successfully.",
+        data: allBooks,
+    })
+ })
 
 module.exports = router;
