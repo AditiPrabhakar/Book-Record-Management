@@ -1,11 +1,11 @@
 const express = require("express");
-const {users} = require("./data/users.json");
+// const {users} = require("./data/users.json");
 // const {books} = require("./data/books.json");
 
 const usersRoute = require('./routes/users.js');
 const booksRoute = require('./routes/books.js');
 
-const app = express();
+const app = express(); //~ for creating the main application instance
 
 const PORT = 8081;
 
@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
         message: "Server is running.",
         data: "hey",
     });
-    //* Can only send one response that's why we prefer json
+    //* .send can only send one response that's why we prefer json
     // res.status(200).send("Server is up.");
 })
 
