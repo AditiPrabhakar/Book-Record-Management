@@ -53,3 +53,10 @@ GET: get all issued books with their fine
 
 -npm init 
 -npm i nodemon --save-dev
+
+0. env files are increasingly popular as a way to configure an application by securely storing configuration settings, environment variables, and sensitive information.
+0. [used to hide sensitive information about database (also added in gitignore)]
+0. we can store variables in the .env file but it is recommended to use UPPERCASE for the variable name.
+
+npm i dotenv (to use variables from the env file)
+after every change in .env file, we should kill the server and run it again
